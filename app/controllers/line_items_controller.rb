@@ -25,10 +25,13 @@ class LineItemsController < ApplicationController
   def create
     product = Product.find(params[:product_id])
     @line_item = @cart.add_product(product)
-
+  
     respond_to do |format|
       if @line_item.save
-        format.html { redirect_to store_index_url }
+        format.html { redirect_to @line_item.cart }
+        # Following for yellow highlighting of last item added:
+        @current_item = @line_item
+        # format.js 
         format.json { render :show, status: :created, location: @line_item }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -59,7 +62,7 @@ class LineItemsController < ApplicationController
       @line_item.destroy
     end
     respond_to do |format|
-      format.html { redirect_to store_index_url, notice: "Product was successfully removed from cart." }
+      format.html { redirect_to @line_item.cart, notice: "Product was successfully removed from cart." }
       format.json { head :no_content }
     end
   end
