@@ -52,8 +52,12 @@ class UsersController < ApplicationController
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: "User was successfully destroyed." }
-      format.json { head :no_content }
     end
+  end
+  
+  # block to handle the error and report it to the user in a notice
+  rescue_from 'User::Error' do |exception|
+    redirect_to users_url, notice: exception.message
   end
 
   private
