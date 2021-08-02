@@ -22,6 +22,11 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 gem 'stripe'
+gem "devise", ">= 4.7.1"
+gem "haml"
+gem "jquery-rails"
+gem "money-rails"
+
 
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
