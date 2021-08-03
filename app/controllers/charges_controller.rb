@@ -25,7 +25,7 @@ class ChargesController < ApplicationController
 
       customer = Stripe::Customer.new current_user.stripe_id
       customer.source = card_token
-      customer.saved
+      customer.save
       format.html { redirect_to success_path }
     end
 
