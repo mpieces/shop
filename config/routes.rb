@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :charges, only: [:new, :create, :index]
+  # get 'charges/new' => 'charges#new'
   get 'admin' => 'admin#index'
   controller :sessions do
     get 'login' => :new
@@ -6,8 +8,7 @@ Rails.application.routes.draw do
     delete 'logout' => :destroy 
     
   end
-  # get 'sessions/create'
-  # get 'sessions/destroy'
+  
   resources :users
   resources :orders
   resources :line_items

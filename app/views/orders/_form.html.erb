@@ -1,5 +1,7 @@
 
 
+
+
 <%= form_with(model: order, local: true, class: 'cc_form') do |form| %>
   <% if order.errors.any? %>
     <div id="error_explanation">
@@ -29,41 +31,20 @@
   </div>
 
  <div id="pay-type-component"></div>
-
-  <%= fields_for(:payment) do |p| %>
-    <div class="row col-md-12">
-      <div class="form-group col-md-4 no-left-padding">
-        <%= p.label :card_number, 'Card Number', data: { stripe: 'label'} %>
-        <%= p.text_field :card_number, class: "form-control", required: true, data: { stripe: 'number' } %>
-      </div>
-      <div class="form-group col-md-2">
-        <%= p.label :card_cvv, 'Card CVC', data: { stripe: 'label'} %>
-        <%= p.text_field :card_cvc, class: "form-control", required: true, data: { stripe: 'number' } %>
-      </div>
-    
-      <div class="form-group col-md-6">
-        <div class="col-md-12">
-          <%= p.label :card_expires, "Card Expires", data: { stripe: 'label' } %>
-        </div>
-        <div class="col-md-3">
-          <%= p.select :card_expires_month, options_for_select(Payment.month_options), 
-                        { include_blank: 'Month'}, 
-                        'data-stripe' => 'exp-month', 
-                        class: 'form-control', 
-                        required: true 
-          %>
-        </div>
-        <div class="col-md-3">
-          <%= p.select :card_expires_year, options_for_select(Payment.year_options.push), 
-                        { include_blank: 'Year'},
-                        class: 'form-control',
-                        data: { stripe: 'exp-year' },
-                        required: true 
-          %> 
-        </div>
-      </div>
-    </div>
-  <% end %>
+ 
+        
+  <form id="payment-form">
+      <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+      <button id="submit">
+        <div class="spinner hidden" id="spinner"></div>
+        <span id="button-text">Pay now</span>
+      </button>
+      <p id="card-error" role="alert"></p>
+      <p class="result-message hidden">
+        Payment succeeded, see the result in your
+        <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
+      </p>
+  </form>
 
   <div class="actions">
     <%= form.submit 'Place Order' %>
