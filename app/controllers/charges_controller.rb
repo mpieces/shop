@@ -1,7 +1,8 @@
 class ChargesController < ApplicationController
 
   def index
-    @user = User.find_by(id: session[:user_id]).name
+    current_user 
+    # @user = User.find_by(id: session[:user_id]).name
   end
 
   def new
@@ -11,7 +12,27 @@ class ChargesController < ApplicationController
   end
 
   def create
-    
+    respond_to do |format| 
+      if current_user.stripe_id.nil?
+        customer = Stripe::Customer.create({"email": current_user.email })
+        current_user.update(:stripe_id => customer.id)
+      end
+
+      card_token = params[:stripeToken]
+      if card_token.nil?
+        format.html { redirect_to charges_path, error: "Oops" }
+      end 
+
+      customer = Stripe::Customer.new current_user.stripe_id
+      customer.source = card_token
+      customer.saved
+      format.html { redirect_to success_path }
+    end
+
+    def success
+    end
+
+
   end
   #   @amount = 500
 

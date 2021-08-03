@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 mt-4 text-center">
-      <h1> Welcome  <%= @user %></h1>
+      <h1> Welcome  <%= current_user.name %></h1>
     </div>
   </div>
   <div class="row">
@@ -11,7 +11,7 @@
   </div>
   <div class="row">
     <div class="col-md-12 mt-4 text-center">
-      <%= form_tag id: "billing-create-payment-method" do  %>
+      <%= form_tag create_payment_method_path, id: "billing-create-payment-method" do  %>
         <%= link_to "Let's go", new_charge_path , remote: true, class: "btn btn-primary" %>
       <% end %>
     </div>

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :charges, only: [:new, :create, :index]
+  post '/card' => 'charges#create', as: :create_payment_method
+  get '/success' => 'charges#success', as: :success 
   # get 'charges/new' => 'charges#new'
   get 'admin' => 'admin#index'
   controller :sessions do
